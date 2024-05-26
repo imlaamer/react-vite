@@ -1,27 +1,28 @@
 import { Route, Routes } from 'react-router-dom';
-import SharedLayout from 'components/SharedLayout/SharedLayout';
-import FirstPage from 'pages/FirstPage/FirstPage';
-import SecondPage from 'pages/SecondPage/SecondPage';
-import HalfPage from 'pages/HalfPage/HalfPage';
-import ErrorPage from 'pages/ErrorPage/ErrorPage';
-import { AppWrapper } from './App.styled';
+import { lazy } from 'react';
+import { ToastContainer } from 'react-toastify';
 
-const test = import.meta.env.VITE_API_TEST;
+import SharedLayout from './components/common/SharedLayout/SharedLayout';
+
+import './assets/styles/global.module.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+const HomePage = lazy(() => import('pages/HomePage/HomePage'));
+const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
 
 function App() {
-  console.log(test);
   return (
-    <AppWrapper>
+    <>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
-          <Route path="/first" element={<FirstPage />} />
-          <Route path="/second" element={<SecondPage />}>
-            <Route path=":half" element={<HalfPage />} />
-          </Route>
+          <Route index element={<HomePage />} />
+
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
-    </AppWrapper>
+
+      <ToastContainer position="top-right" autoClose={5000} theme="light" />
+    </>
   );
 }
 export default App;
